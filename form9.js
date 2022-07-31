@@ -9,6 +9,7 @@ itemList.addEventListener('click',removeItem);
 //filter event
 filter.addEventListener('keyup',filterItems);
 
+
 //Add Item
 function addItem(e){
     e.preventDefault();
