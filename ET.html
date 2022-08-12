@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+ 
+      <form onsubmit="saveToLocalStorage(event)">
+       <div>
+        <h2 style="color: orangered"><u>Expense Tracker</u></h2>
+        <label for="decription" ><i><b>description</b></i></label>
+        <input type="text" id="description" name="description" placeholder="type description" required><br><br>
+        <label for="amout"><i><b>amount</b></i></label>
+        <input type="number" id="amount" name="amount" placeholder="type amount"
+        required><br><br>
+        <label for="category"><i><b>category:</b></i></label>
+        <select name="category" id="category">
+            <option value="food">food</option>
+            <option value="hotel">hotel</option>
+            <option value="travel">travel</option>
+            <option value="sports">event</option>
+        </select> <br><br>
+        <button style="background-color:rgb(0, 217, 255) ;" type="submit">add expense</button>
+       </div>
+      </form>
+      <ul id="listofusers"></ul>
+
+      <script>
+        function saveToLocalStorage(event){
+            event.preventDefault();
+            const description = event.target.description.value;
+            const amount     = event.target.amount.value;
+            const category   = event.target.category.value;
+            const obj ={
+                description,
+                amount,
+                category
+            }
+            localStorage.setItem(obj.amount , JSON.stringify(obj));
+            shoNewUserOnScreen(obj);
+        }
+
+        function shoNewUserOnScreen(user){
+            const parentNode = document.getElementById('listofusers');
+            const childHTML   = `<li id=${user.amount}> ${user.description} - ${user.amount} - ${user.category} 
+                <button onclick=deleteUser('${user.amount}')> delete</button> 
+                <button onclick=editUserdetails('${user.amount}','${user.description}','${user.category}')>edit</button>
+                 </li>`
+            parentNode.innerHTML =  parentNode.innerHTML + childHTML;
+        }
+         //edit user detail
+         function editUserdetails(amount,description,category){
+            document.getElementById('amount').value=amount;
+            document.getElementById('description').value=description;
+            document.getElementById('category').value=category;
+            deleteUser(amount);
+
+         }
+
+        //deleteuser(amout)
+        function deleteUser(amount){
+            console.log(amount)
+            localStorage.removeItem(amount);
+            removeUserFromScreen(amount);
+        }
+        function removeUserFromScreen(amount){
+            const parentNode = document.getElementById('listofusers');
+            const childNodeTobeDeleted =document.getElementById(amount);
+            parentNode.removeChild(childNodeTobeDeleted);
+
+
+
+        }
+
+      </script>
+    
+    
+</body>
+</html>
